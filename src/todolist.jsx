@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 
 // This component expects 'refreshTrigger' to re-fetch data, 
 // ensuring the list updates after Create, Update, or Delete.
-function TodoList({ refreshTrigger }) {
+function TodoList({ refreshTrigger,accessToken }) {
     const [todos, setTodos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     // --- Configuration ---
     const API_URL = "http://127.0.0.1:8000/todoapp/todolist/"; 
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, 
+};
+
 
     // --- READ Operation (GET) ---
     const fetchTodos = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(API_URL,{ method: 'GET', headers: headers });
             if (!response.ok) {
                 throw new Error(`Status: ${response.status}`);
             }
@@ -30,7 +35,7 @@ function TodoList({ refreshTrigger }) {
     const handleDelete = async (id) => {
         try {
             const response = await fetch(`${API_URL}${id}`, {
-                method: 'DELETE', // Method is DELETE
+                method: 'DELETE', headers: headers // Method is DELETE
             });
 
             if (response.status === 204) { // 204 No Content is standard for successful DELETE
@@ -52,9 +57,7 @@ function TodoList({ refreshTrigger }) {
         try {
             const response = await fetch(`${API_URL}${todo.id}`, {
                 method: 'PUT', // Using PUT for the update (backend handles partial=True)
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: headers,
                 body: JSON.stringify({ 
                     is_completed: newStatus // Only send the field we are changing
                 }),

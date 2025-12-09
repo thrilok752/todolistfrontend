@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 
-function TodoForm({ onTodoCreated }) {
+function TodoForm({ onTodoCreated,accessToken}) {
     const [title, setTitle] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${accessToken}`, 
+};
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Stop the browser default form submission
@@ -14,10 +19,7 @@ function TodoForm({ onTodoCreated }) {
         try {
             const response = await fetch(URL, {
                 method: 'POST', // 1. Set the method to POST
-                headers: {
-                    // 2. Crucial header: tells Django the body is JSON
-                    'Content-Type': 'application/json',
-                },
+                headers: headers,
                 // 3. Convert JavaScript object to a JSON string for the body
                 body: JSON.stringify({ 
                     task: title,
