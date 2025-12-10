@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 
-// Receives onRegistrationSuccess to pass the new user's credentials back to App.jsx
 function Register({ onRegistrationSuccess, switchToLogin }) {
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setemail] = useState('');
-    const [re_password, setRePassword] = useState(''); // CRITICAL: Password confirmation
+    const [re_password, setRePassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // Djoser registration endpoint
     const REGISTER_URL = "http://127.0.0.1:8000/auth/users/";
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         setError('');
         setIsLoading(true);
 
@@ -29,30 +27,40 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     username: username,
+                    email: email, // <--- 2. EMAIL ADDED TO PAYLOAD
                     password: password,
-                    re_password: re_password, // Required by Django setting
+                    re_password: re_password,
                 }),
             });
 
-            if (response.ok) {
-                // SUCCESS: Registration successful. The user is created.
-                // We typically redirect or automatically log them in now.
-                alert("Registration successful! You can now log in.");
-                
-                // Use the successful credentials to automatically log the user in
-                onRegistrationSuccess(username, password); 
-
+            if (response.status === 201) {
+                // Success
+                alert("Registration successful! Please log in.");
+                onRegistrationSuccess(username, password);
             } else {
-                // FAILURE: Display error messages from Djoser/DRF
+                // Failure: Read the error body for validation messages
                 const errorData = await response.json();
+                console.log('Registration status:', response.status);
+                console.log('Registration response body:', errorData);
+
                 
-                // Handle complex validation errors from Django (e.g., username already exists)
                 let errorMessage = "Registration failed. Please check your details.";
-                if (errorData.username) errorMessage = `Username error: ${errorData.username[0]}`;
-                else if (errorData.password) errorMessage = `Password error: ${errorData.password[0]}`;
-                else if (errorData.re_password) errorMessage = `Password confirmation error: ${errorData.re_password[0]}`;
+                
+                // --- 3. ERROR HANDLING LOGIC ---
+                // Check if the error is on a specific field and display the message
+                if (errorData.email) {
+                    // This handles the unique constraint failure:
+                    // Message will be: "user with this email already exists."
+                    errorMessage = `Email error: ${errorData.email[0]}`; 
+                } else if (errorData.username) {
+                    errorMessage = `Username error: ${errorData.username[0]}`;
+                } else if (errorData.password) {
+                    errorMessage = `Password error: ${errorData.password[0]}`;
+                } else if (errorData.non_field_errors) {
+                    errorMessage = errorData.non_field_errors[0];
+                }
                 
                 setError(errorMessage);
             }
@@ -67,10 +75,9 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-            <h2 className="text-2xl font-bold text-center text-indigo-700 mb-6">Create Account</h2>
+            <h2 className="text-2xl font-bold text-center text-indigo-700 mb-6">Register Account</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 
-                {/* Error Display */}
                 {error && (
                     <div className="p-3 bg-red-100 text-red-700 border border-red-300 rounded-md">
                         {error}
@@ -89,12 +96,13 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
                     />
                 </div>
 
+                {/* Email Input (NEW FIELD) */}
                 <div>
                     <input
                         type="email"
-                        placeholder="EmailAddress"
+                        placeholder="Email Address"
                         value={email}
-                        onChange={(e) => setemail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                         className="w-full p-3 border border-gray-300 rounded-md"
                     />
@@ -112,7 +120,7 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
                     />
                 </div>
                 
-                {/* Password Confirmation Input (CRITICAL) */}
+                {/* Confirm Password Input */}
                 <div>
                     <input
                         type="password"
@@ -124,20 +132,18 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
                     />
                 </div>
 
-
-                {/* Submit Button */}
                 <button
                     type="submit"
                     disabled={isLoading}
                     className="w-full bg-indigo-600 text-white p-3 rounded-md hover:bg-indigo-700 disabled:bg-gray-400 font-medium transition duration-150"
                 >
-                    {isLoading ? 'Creating...' : 'Register'}
+                    {isLoading ? 'Registering...' : 'Register'}
                 </button>
             </form>
-            <p className="mt-4 text-center text-sm text-gray-600">
-                Already have an account? 
-                <button onClick={switchToLogin} className="text-indigo-600 hover:underline ml-1">
-                    Log In
+            <p className="mt-4 text-center text-sm">
+                Already have an account?{' '}
+                <button onClick={switchToLogin} className="text-indigo-600 hover:underline">
+                    Login
                 </button>
             </p>
         </div>
