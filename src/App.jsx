@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import TodoList from './TodoList';
+import TodoList from './todolist';
 import TodoForm from './TodoForm';
 import Login from './Loginform';
 import Register from './Registerform';
-import PasswordChange from './passwordchange';
+import PasswordChange from './Passwordchange';
 import ForgotPasswordRequest from './Passwordforgot';
 import PasswordResetConfirm from './Passwordresetform';
 

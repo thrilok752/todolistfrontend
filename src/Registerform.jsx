@@ -9,7 +9,7 @@ function Register({ onRegistrationSuccess, switchToLogin }) {
     const [isLoading, setIsLoading] = useState(false);
 
     // const REGISTER_URL = "http://127.0.0.1:8000/auth/users/";
-    const REGISTER_URL = `${API_BASE_URL}/auth/users/`;
+    const REGISTER_URL = API.registerform;
 
     const handleSubmit = async (e) => {
         e.preventDefault();

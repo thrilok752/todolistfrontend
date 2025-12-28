@@ -8,7 +8,7 @@ function ForgotPasswordRequest({ switchToLogin }) {
 
     // Djoser reset password request endpoint
     // const REQUEST_URL = "http://127.0.0.1:8000/auth/users/reset_password/";
-    const REQUEST_URL = `${API_BASE_URL}/auth/users/reset_password/`;
+    const REQUEST_URL = API.passwordforgot;
 
     const handleSubmit = async (e) => {
         e.preventDefault();

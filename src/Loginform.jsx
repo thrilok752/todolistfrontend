@@ -12,7 +12,7 @@ function Login({ onLoginSuccess, switchToRegister, switchToReset }) {
     // --- Configuration ---
     // This is the SimpleJWT/Djoser token creation endpoint
     // const LOGIN_URL = "http://127.0.0.1:8000/auth/jwt/create/";
-    const LOGIN_URL = `${API_BASE_URL}/auth/jwt/create/`;
+    const LOGIN_URL = API.loginform;
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 
