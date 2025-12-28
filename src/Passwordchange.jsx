@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_BASE_URL } from './api';
+import { API } from './api';
 
 // Receives the accessToken and a function to switch back to the list view
 function PasswordChange({ accessToken, onPasswordChangeSuccess }) {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API } from './api';
 // NOTE: This component assumes you are using React Router or similar
 // to capture the UID and Token from the URL. Since we don't know your exact router 
 // setup, we'll use placeholder variables for demonstration.

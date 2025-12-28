@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_BASE_URL } from './api';
+import { API } from './api';
 function ForgotPasswordRequest({ switchToLogin }) {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');

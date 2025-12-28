@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { API } from './api';
 function Register({ onRegistrationSuccess, switchToLogin }) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
