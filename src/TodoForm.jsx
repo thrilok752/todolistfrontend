@@ -14,7 +14,8 @@ function TodoForm({ onTodoCreated,accessToken}) {
         if (!title.trim()) return; // Prevent submitting empty titles
 
         setIsSubmitting(true);
-        const URL = "http://127.0.0.1:8000/todoapp/todolist/"; 
+        // const URL = "http://127.0.0.1:8000/todoapp/todolist/";
+        const URL = `${API_BASE_URL}/todoapp/todolist/`;
 
         try {
             const response = await fetch(URL, {

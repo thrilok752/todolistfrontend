@@ -7,7 +7,9 @@ function TodoList({ refreshTrigger,accessToken }) {
     const [isLoading, setIsLoading] = useState(true);
 
     // --- Configuration ---
-    const API_URL = "http://127.0.0.1:8000/todoapp/todolist/"; 
+    // const API_URL = "http://127.0.0.1:8000/todoapp/todolist/";
+    const API_URL = `${API_BASE_URL}/todoapp/todolist/`;
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`, 

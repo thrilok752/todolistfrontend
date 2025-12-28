@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from './api';
 
 // This component receives a function (onLoginSuccess) from App.jsx 
 // to pass the acquired token back up.
@@ -10,7 +11,8 @@ function Login({ onLoginSuccess, switchToRegister, switchToReset }) {
 
     // --- Configuration ---
     // This is the SimpleJWT/Djoser token creation endpoint
-    const LOGIN_URL = "http://127.0.0.1:8000/auth/jwt/create/";
+    // const LOGIN_URL = "http://127.0.0.1:8000/auth/jwt/create/";
+    const LOGIN_URL = `${API_BASE_URL}/auth/jwt/create/`;
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from './api';
 
 // Receives the accessToken and a function to switch back to the list view
 function PasswordChange({ accessToken, onPasswordChangeSuccess }) {
@@ -9,7 +10,8 @@ function PasswordChange({ accessToken, onPasswordChangeSuccess }) {
     const [isLoading, setIsLoading] = useState(false);
 
     // Djoser password change endpoint
-    const PASSWORD_CHANGE_URL = "http://127.0.0.1:8000/auth/users/set_password/";
+    // const PASSWORD_CHANGE_URL = "http://127.0.0.1:8000/auth/users/set_password/";
+    const PASSWORD_CHANGE_URL = `${API_BASE_URL}/auth/users/set_password/`;
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 

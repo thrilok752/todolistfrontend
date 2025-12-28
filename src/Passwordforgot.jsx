@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { API_BASE_URL } from './api';
 function ForgotPasswordRequest({ switchToLogin }) {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -7,7 +7,8 @@ function ForgotPasswordRequest({ switchToLogin }) {
     const [isLoading, setIsLoading] = useState(false);
 
     // Djoser reset password request endpoint
-    const REQUEST_URL = "http://127.0.0.1:8000/auth/users/reset_password/";
+    // const REQUEST_URL = "http://127.0.0.1:8000/auth/users/reset_password/";
+    const REQUEST_URL = `${API_BASE_URL}/auth/users/reset_password/`;
 
     const handleSubmit = async (e) => {
         e.preventDefault();

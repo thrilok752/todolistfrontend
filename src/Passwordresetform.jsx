@@ -19,7 +19,9 @@ function PasswordResetConfirm({ uid, token, switchToLogin }) {
     const [isLoading, setIsLoading] = useState(false);
 
     // Djoser reset password confirmation endpoint
-    const CONFIRM_URL = "http://127.0.0.1:8000/auth/users/reset_password_confirm/";
+    // const CONFIRM_URL = "http://127.0.0.1:8000/auth/users/reset_password_confirm/";
+    const CONFIRM_URL = `${API_BASE_URL}/auth/users/reset_password_confirm/`;
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
